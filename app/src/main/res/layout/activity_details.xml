@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/layout/activity_details.xml -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="#1976D2"
+    tools:context=".DetailsActivity">
+
+    <!-- CardView for Total Distance and Total Fare -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cardViewDetails"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="#1976D2"
+        app:cardMaxElevation="12dp"
+        app:cardPreventCornerOverlap="true"
+
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:textColor="@color/white"
+                android:textSize="25dp"
+                android:fontFamily="casual"
+                android:id="@+id/textViewTotalDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Distance: " />
+
+            <TextView
+                android:textColor="@color/white"
+                android:textSize="25dp"
+                android:fontFamily="casual"
+                android:id="@+id/textViewTotalFare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Fare: " />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/cardView"
+        android:background="@drawable/rounded_top_corners"
+        app:cardBackgroundColor="@color/white"
+        android:layout_below="@id/cardViewDetails"
+        app:cardPreventCornerOverlap="true">
+    <com.google.android.gms.maps.MapView
+        android:background="@drawable/rounded_top_corner_map_background"
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/cardViewDetails" />
+    </LinearLayout>
+
+</RelativeLayout>

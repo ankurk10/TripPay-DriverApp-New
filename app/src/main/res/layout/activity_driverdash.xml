@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="#1976D2"
+    tools:context=".driverdash">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/drivercardview"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardMaxElevation="12dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1976D8"
+
+            android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+>
+        <TextView
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            android:fontFamily="casual"
+            android:layout_weight="1"
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Card ID: " />
+<ImageView
+    android:layout_width="30dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="end"
+    android:id="@+id/reload"
+    android:layout_marginRight="20dp"
+    android:src="@drawable/reload"/>
+            <ImageView
+                android:layout_width="22dp"
+                android:id="@+id/logout"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:src="@drawable/logout"/>
+        </LinearLayout>
+
+        <TextView
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            android:fontFamily="casual"
+            android:id="@+id/card_id"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Card Balance: " />
+            <TextView
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:fontFamily="casual"
+                android:id="@+id/balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Card Balance: " />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- CardView for Card Information -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cardViewCardInfo"
+        android:layout_marginTop="120dp"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardMaxElevation="12dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1976D8"
+
+            android:padding="16dp">
+
+            <TextView
+            android:textColor="@color/white"
+                android:textSize="15dp"
+           android:fontFamily="casual"
+
+                android:id="@+id/ssid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Card ID: " />
+
+            <TextView
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:fontFamily="casual"
+                android:id="@+id/passwrd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Card Balance: " />
+
+            <TextView
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:fontFamily="casual"
+                android:id="@+id/battery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Battery: " />
+            <TextView
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:fontFamily="casual"
+                android:id="@+id/signal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Signal Srength: " />
+            <TextView
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:fontFamily="casual"
+                android:id="@+id/carrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Signal Srength: " />
+
+            <TextView
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:fontFamily="casual"
+                android:id="@+id/kmrr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Loading... " />
+
+            <TextView
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:fontFamily="casual"
+                android:id="@+id/lastupdated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Loading... " />
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/cardView"
+        android:background="@drawable/rounded_top_corners"
+        app:cardBackgroundColor="@color/white"
+
+        android:layout_below="@id/cardViewCardInfo"
+        app:cardPreventCornerOverlap="true">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewRidingData"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/cardViewCardInfo"
+        android:padding="16dp"/>
+    </LinearLayout>
+
+</RelativeLayout>
