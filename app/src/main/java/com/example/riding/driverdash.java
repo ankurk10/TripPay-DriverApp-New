@@ -45,7 +45,7 @@ import java.util.concurrent.TimeUnit;
 public class driverdash extends AppCompatActivity {
     private CardView cardViewCardInfo;
     private SwipeRefreshLayout swipeRefreshLayout;
-String rate;
+String rate;s
     private  TextView name,cardid,balance,ssid,passwrd,battery,signal,carrier,lastupdated,km;
     private RecyclerView recyclerViewRidingData;
 
@@ -56,7 +56,7 @@ String rate;
         cardViewCardInfo=findViewById(R.id.cardViewCardInfo);
         recyclerViewRidingData=findViewById(R.id.recyclerViewRidingData);
         cardViewCardInfo = findViewById(R.id.cardViewCardInfo);
-       // swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        // swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         name = findViewById(R.id.name);
         cardid = findViewById(R.id.card_id);
         balance=findViewById(R.id.balance);
@@ -90,8 +90,8 @@ String rate;
         if (intent != null) {
             int userId = intent.getIntExtra("userid", -1); // -1 is the default value if the key is not found
             String userEmail = intent.getStringExtra("email");
-//            Toast.makeText(this, "id : "+userId, Toast.LENGTH_SHORT).show();
-//            Toast.makeText(this, "email : "+userEmail, Toast.LENGTH_SHORT).show();
+            //            Toast.makeText(this, "id : "+userId, Toast.LENGTH_SHORT).show();
+            //            Toast.makeText(this, "email : "+userEmail, Toast.LENGTH_SHORT).show();
             fetchData(userEmail);
         }
 
@@ -111,7 +111,7 @@ String rate;
                         String userEmail = intent.getStringExtra("email");
                         updateRateWithVolley(newRate,userEmail);
 
-                      }
+                    }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -123,7 +123,7 @@ String rate;
         cardViewCardInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              alertDialog.show();
+                alertDialog.show();
 
             }
         });
