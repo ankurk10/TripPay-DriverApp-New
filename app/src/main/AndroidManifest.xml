@@ -27,6 +27,12 @@
         android:theme="@style/Theme.Riding"
         tools:targetApi="31">
         <activity
+            android:name=".RideHistory"
+            android:exported="false" />
+        <activity
+            android:name=".TransactionActivity"
+            android:exported="false" />
+        <activity
             android:name=".PaymentActivity"
             android:exported="false">
             <meta-data

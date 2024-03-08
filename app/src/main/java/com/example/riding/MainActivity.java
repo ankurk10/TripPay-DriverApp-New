@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         cardViewCardInfo = findViewById(R.id.cardViewCardInfo);
         textViewCardId = findViewById(R.id.textViewCardId);
         textViewCardBalance = findViewById(R.id.textViewCardBalance);
-        recyclerViewRidingData = findViewById(R.id.recyclerViewRidingData);
+        recyclerViewRidingData = findViewById(R.id.RidingDataAdapter);
         name=findViewById(R.id.name);
 
         Intent intent = getIntent();

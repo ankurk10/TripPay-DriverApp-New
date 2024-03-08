@@ -40,7 +40,7 @@ public class login extends AppCompatActivity {
         editTextLoginEmail = findViewById(R.id.editTextLoginEmail);
         editTextLoginPassword = findViewById(R.id.editTextLoginPassword);
         btnLogin = findViewById(R.id.btnLogin);
-signup=findViewById(R.id.btnsignup);
+        signup=findViewById(R.id.btnsignup);
 
         // Initialize SharedPreferences
         sharedPreferences = getPreferences(Context.MODE_PRIVATE);

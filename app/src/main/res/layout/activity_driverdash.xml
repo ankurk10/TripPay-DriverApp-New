@@ -28,6 +28,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -38,6 +39,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/top_background" />
@@ -57,13 +59,13 @@
                         android:id="@+id/logout"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_marginEnd="10dp"
                         android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.054"
-                        app:srcCompat="@drawable/setting" />
+                        app:srcCompat="@drawable/logout" />
 
                     <TextView
                         android:id="@+id/textView3"
@@ -151,7 +153,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="140dp"
+                    android:layout_height="150dp"
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="32dp"
@@ -174,11 +176,11 @@
                         android:id="@+id/lastupdated"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="244dp"
-                        android:layout_marginTop="120dp"
+                        android:layout_marginStart="92dp"
+                        android:layout_marginTop="128dp"
                         android:text="Last Updated"
                         android:textColor="#ffffff"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -229,12 +231,25 @@
                         app:srcCompat="@drawable/reward"
                         app:tint="@color/white" />
 
+
+                    <ImageView
+                        android:id="@+id/reload"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="60dp"
+                        android:layout_marginTop="128dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/reload"
+                        app:tint="@color/white" />
+
                     <TextView
                         android:id="@+id/battery"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="100%"
+                        android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="12sp"
                         android:textStyle="bold"
@@ -242,8 +257,9 @@
                         app:layout_constraintStart_toStartOf="@+id/imageView5"
                         app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
+
                     <TextView
-                        android:id="@+id/spend"
+                        android:id="@+id/earning"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -347,6 +363,7 @@
                             android:orientation="vertical">
 
                             <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/rideHistory"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -373,7 +390,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:text="Transaction history"
+                                android:text="Ride history"
                                 android:textAlignment="center"
                                 android:textColor="#2E3D6D"
                                 android:textSize="14sp"
