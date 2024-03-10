@@ -42,7 +42,7 @@
                             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                             app:contentInsetStartWithNavigation="0dp"
                             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                            app:title="Transaction History"
+                            app:title="Ride History"
                             app:titleTextColor="#1A237E" />
                     </com.google.android.material.appbar.AppBarLayout>
 
@@ -102,7 +102,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="sans-serif-medium"
                                     android:text="Loading..."
-                                    android:id="@+id/earning"
+                                    android:id="@+id/distanceTravelled"
                                     android:textStyle="bold"
                                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                                     android:textColor="#FFFFFF" />
@@ -131,6 +131,7 @@
                                 app:cardUseCompatPadding="true">
 
                                 <LinearLayout
+                                    android:id="@+id/withdrawLayout"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
@@ -179,6 +180,7 @@
                                 app:cardUseCompatPadding="true">
 
                                 <LinearLayout
+                                    android:id="@+id/withdraw_history"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
@@ -206,12 +208,12 @@
                                         android:id="@+id/receiveTxview"
                                         android:layout_width="130dp"
                                         android:layout_height="wrap_content"
-                                        android:clickable="true"
+                                        android:clickable="false"
                                         android:fontFamily="sans-serif-medium"
                                         android:text="History"
-                                        android:textStyle="bold"
                                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                                        android:textColor="#1A237E" />
+                                        android:textColor="#1A237E"
+                                        android:textStyle="bold" />
                                 </LinearLayout>
 
                             </androidx.cardview.widget.CardView>

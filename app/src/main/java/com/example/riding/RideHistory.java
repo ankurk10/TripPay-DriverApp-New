@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,25 +30,50 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 public class RideHistory extends AppCompatActivity {
 
     private TextView totalEarning;
-
+    LinearLayout withdraw,history;
     private RecyclerView recyclerViewRidingData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ride_history);
 
-        totalEarning = findViewById(R.id.earning);
+        totalEarning = findViewById(R.id.distanceTravelled);
 
         recyclerViewRidingData = findViewById(R.id.RidingDataAdapter);
-
+        withdraw = findViewById(R.id.withdrawLayout);
+        history =  findViewById(R.id.withdraw_history);
         Intent intent = getIntent();
         String email = intent.getStringExtra("email");
         fetchData(email);
+
+
+        //Transfer to the WithdrawBalanceActivity ( on clicking the withdraw layout)
+        {
+            withdraw.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent_gotoWithdrawBalanceActivity = new Intent(RideHistory.this, WithdrawBalanceActivity.class);
+                    intent_gotoWithdrawBalanceActivity.putExtra("email", email);
+                    startActivity(intent_gotoWithdrawBalanceActivity);
+                }
+            });
+        }
+
+        //Transfer to the WithdrawalHistory Activity(on clicking the history layout)
+        {
+            history.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent_gotoWithdrawBalanceActivity = new Intent(RideHistory.this, WithdrawalHistory.class);
+                    intent_gotoWithdrawBalanceActivity.putExtra("email", email);
+                    startActivity(intent_gotoWithdrawBalanceActivity);
+                }
+            });
+        }
     }
 
     private void fetchData(String email) {
@@ -62,7 +88,7 @@ public class RideHistory extends AppCompatActivity {
 
                             //Update todays total earning
                             String cardBalance = response.getString("card_balance");
-                            totalEarning.setText("Earnings : " + cardBalance + "$");
+                            totalEarning.setText("Earnings : " + cardBalance + "₹");
 
                             // Extract riding data array
                             // Extract riding data array
