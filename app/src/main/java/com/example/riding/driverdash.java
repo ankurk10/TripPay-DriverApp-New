@@ -36,7 +36,7 @@ public class driverdash extends AppCompatActivity {
     private TextView name,balance,battery,signal,lastupdated,km,carrier,totaldistance;
     private ImageView imageView_logout,imageView_reload,imageView_photo,imageView_signal,imageView_battery;
     private Button withdraw;
-    private ConstraintLayout rideHistory,rewards,chatSupport,withdrawal_history,refer,help,settings;
+    private ConstraintLayout rideHistory,rewards,chatSupport,withdrawal_history,refer,help,settings,share;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +136,24 @@ public class driverdash extends AppCompatActivity {
         }
     }
     private void updateButtonsActivity(String email) {
+        //Share the App Activity
+        {
+            share = findViewById(R.id.shareLayout);
+            share.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    //Here the URL to the app needs to be added
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, "URL");
+                    sendIntent.setType("text/plain");
+
+                    Intent shareIntent = Intent.createChooser(sendIntent, null);
+                    startActivity(shareIntent);
+                }
+            });
+        }
+
         //Transfers to the RideHistory Activity (on clicking the ridehistory icon)
         {
             rideHistory = findViewById(R.id.rideHistory);

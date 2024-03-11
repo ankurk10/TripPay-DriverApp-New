@@ -7,7 +7,7 @@
     android:background="#F2F2F2"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-    tools:context=".TransactionActivity">
+    tools:context=".RideHistory">
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
