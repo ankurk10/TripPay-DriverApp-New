@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -29,7 +31,8 @@ import java.util.Map;
 public class login extends AppCompatActivity {
     private EditText editTextLoginEmail;
     private EditText editTextLoginPassword;
-    private Button btnLogin,signup;
+    private ImageView btnLogin;
+    private TextView signup;
     private SharedPreferences sharedPreferences;
 
 
@@ -115,7 +118,7 @@ public class login extends AppCompatActivity {
                                     String userEmail = response.getString("email");
                                     int driver = response.getInt("driver");
                                     if (driver == 0) {
-                                        Intent intent = new Intent(login.this, MainActivity.class);
+                                        Intent intent = new Intent(login.this, driverdash.class);
                                         intent.putExtra("userid", userId);
                                         intent.putExtra("email", userEmail);
                                         startActivity(intent);

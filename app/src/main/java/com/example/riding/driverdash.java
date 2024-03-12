@@ -11,8 +11,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,16 +29,19 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class driverdash extends AppCompatActivity {
 //    private CardView cardViewCardInfo;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private AlertDialog alertDialog;
     private String rate;
     private TextView name,balance,battery,signal,lastupdated,km,carrier,totaldistance;
     private ImageView imageView_logout,imageView_reload,imageView_photo,imageView_signal,imageView_battery;
     private Button withdraw;
-    private ConstraintLayout rideHistory,rewards,chatSupport,withdrawal_history,refer,help,settings,share;
+    private ConstraintLayout rideHistory,editRate,chatSupport,withdrawal_history,refer,help,settings,share;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +65,7 @@ public class driverdash extends AppCompatActivity {
         imageView_battery = findViewById(R.id.batteryImage);
         String email  =  intent.getStringExtra("email");
 
+        editkmrr(email);
         //Makes the bottom 8 buttons alive and adds clicklistener to move to new activity
         updateButtonsActivity(email);
 
@@ -106,7 +112,7 @@ public class driverdash extends AppCompatActivity {
             public void onRefresh() {
                 String userEmail = intent.getStringExtra("email");
                 fetchLatestData(userEmail);
-                Toast.makeText(driverdash.this, "Data upated sucessfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(driverdash.this, "Data updated sucessfully", Toast.LENGTH_SHORT).show();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -135,6 +141,61 @@ public class driverdash extends AppCompatActivity {
             fetchLatestData(userEmail);
         }
     }
+    private void editkmrr(String email) {
+        //alert Dialog box
+        final View dialogView = LayoutInflater.from(this).inflate(R.layout.payment_dialog, null);
+        alertDialog = new AlertDialog.Builder(this)
+                .setTitle("Enter Your New Rate")
+                .setView(dialogView)
+                .setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Handle payment logic here
+                        EditText rate = dialogView.findViewById(R.id.editTextrate);
+                        //cardNumberEditText.setText("hello");
+                        String newRate = rate.getText().toString();
+                        updateRateWithVolley(newRate,email);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+
+    }
+    private void updateRateWithVolley(String newRate,String email) {
+
+        String url = "https://trippay.in/updatekm.php"; // Replace with your actual endpoint URL
+        Map<String, String> params = new HashMap<>();
+        params.put("email", email);
+        params.put("rate", newRate);
+
+        // Create a new JsonObjectRequest
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Handle the response from the server
+                        km.setText("Price\n" + newRate + "/km");
+                        Toast.makeText(driverdash.this, "Rate updated successfully", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle the error
+                        km.setText("Price\n" + newRate + "/km");
+                        Toast.makeText(driverdash.this, "Rate updated successfully", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        // Add the request to the Volley request queue
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+    }
     private void updateButtonsActivity(String email) {
         //Share the App Activity
         {
@@ -150,6 +211,17 @@ public class driverdash extends AppCompatActivity {
 
                     Intent shareIntent = Intent.createChooser(sendIntent, null);
                     startActivity(shareIntent);
+                }
+            });
+        }
+
+        //Transfers to the Rewards Activity (on clicking the chat rewards icon)
+        {
+            editRate = findViewById(R.id.editkmrr);
+            editRate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDialog.show();
                 }
             });
         }
@@ -203,18 +275,7 @@ public class driverdash extends AppCompatActivity {
                 }
             });
         }
-        //Transfers to the Rewards Activity (on clicking the chat rewards icon)
-        {
-            rewards = findViewById(R.id.rewardLayout);
-            rewards.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent_gotoRewards = new Intent(driverdash.this, Rewards.class);
-                    intent_gotoRewards.putExtra("email", email);
-                    startActivity(intent_gotoRewards);
-                }
-            });
-        }
+
         //Transfers to the Settings Activity (on clicking the settings icon)
         {
             settings = findViewById(R.id.settingLayout);

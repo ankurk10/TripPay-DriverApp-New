@@ -221,17 +221,20 @@
                         app:srcCompat="@drawable/baseline_currency_rupee_24"
                         app:tint="@color/white" />
 
+
                     <ImageView
                         android:id="@+id/signalimage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="32dp"
                         app:layout_constraintBottom_toBottomOf="@+id/imageView8"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/imageView8"
                         app:layout_constraintTop_toTopOf="@+id/imageView8"
+                        app:layout_constraintVertical_bias="0.0"
                         app:srcCompat="@drawable/baseline_signal_cellular_0_bar_24"
                         app:tint="@color/white" />
-
 
                     <ImageView
                         android:id="@+id/reload"
@@ -305,12 +308,13 @@
                         android:id="@+id/carrier"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="200dp"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="16dp"
                         android:text="Carrier : "
                         android:textColor="#ffffff"
                         android:textSize="14sp"
                         android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.602"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -337,7 +341,7 @@
                             android:orientation="vertical">
 
                             <androidx.constraintlayout.widget.ConstraintLayout
-                                android:id="@+id/rewardLayout"
+                                android:id="@+id/editkmrr"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -355,7 +359,7 @@
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
-                                    app:srcCompat="@drawable/reward"
+                                    app:srcCompat="@drawable/baseline_currency_rupee_24"
                                     app:tint="#2E3D6D" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -364,7 +368,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:text="Rewards"
+                                android:text="Edit Rate"
                                 android:textAlignment="center"
                                 android:textColor="#2E3D6D"
                                 android:textSize="14sp"
