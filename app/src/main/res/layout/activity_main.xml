@@ -42,7 +42,7 @@
                 android:text="Passenger Information " />
 
             <TextView
-                android:id="@+id/username"
+                android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -120,7 +120,7 @@ android:orientation="vertical"
             android:layout_gravity="center"
             />
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewRidingData"
+        android:id="@+id/RidingDataAdapter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/cardViewCardInfo"

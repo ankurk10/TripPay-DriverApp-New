@@ -2,12 +2,9 @@ package com.example.riding;
 
 import static android.content.ContentValues.TAG;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.DialogInterface;
@@ -16,7 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,76 +26,125 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class driverdash extends AppCompatActivity {
-    private CardView cardViewCardInfo;
+//    private CardView cardViewCardInfo;
     private SwipeRefreshLayout swipeRefreshLayout;
-String rate;
-    private  TextView name,cardid,balance,ssid,passwrd,battery,signal,carrier,lastupdated,km;
-    private RecyclerView recyclerViewRidingData;
+    private AlertDialog alertDialog;
+    private String rate;
+    private TextView name,balance,battery,signal,lastupdated,km,carrier,totaldistance;
+    private ImageView imageView_logout,imageView_reload,imageView_photo,imageView_signal,imageView_battery;
+    private Button withdraw;
+    private ConstraintLayout rideHistory,editRate,chatSupport,withdrawal_history,refer,help,settings,share;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driverdash);
-        cardViewCardInfo=findViewById(R.id.cardViewCardInfo);
-        recyclerViewRidingData=findViewById(R.id.recyclerViewRidingData);
-        cardViewCardInfo = findViewById(R.id.cardViewCardInfo);
-       // swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+
+        //get intent
+        Intent intent = getIntent();
+
+        //initialize and add reference to variables
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         name = findViewById(R.id.name);
-        cardid = findViewById(R.id.card_id);
         balance=findViewById(R.id.balance);
-        ssid=findViewById(R.id.ssid);
-        passwrd=findViewById(R.id.passwrd);
         lastupdated=findViewById(R.id.lastupdated);
         signal=findViewById(R.id.signal);
         battery=findViewById(R.id.battery);
-        carrier=findViewById(R.id.carrier);
         km=findViewById(R.id.kmrr);
-        Intent intent = getIntent();
-        ImageView im=(ImageView)findViewById(R.id.logout);
-        im.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showLogoutConfirmationDialog();
-            }
-        });
+        carrier = findViewById(R.id.carrier);
+        totaldistance = findViewById(R.id.distanceTravelled);
+        imageView_signal = findViewById(R.id.signalimage);
+        imageView_battery = findViewById(R.id.batteryImage);
+        String email  =  intent.getStringExtra("email");
 
-        ImageView ir=(ImageView)findViewById(R.id.reload);
-        ir.setOnClickListener(new View.OnClickListener() {
+        editkmrr(email);
+        //Makes the bottom 8 buttons alive and adds clicklistener to move to new activity
+        updateButtonsActivity(email);
+
+        //Transfer to the WithdrawBalanceActivity ( on clicking the withdraw button)
+        {
+            withdraw = findViewById(R.id.withdraw);
+            withdraw.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent_gotoWithdrawBalanceActivity = new Intent(driverdash.this, WithdrawBalanceActivity.class);
+                    intent_gotoWithdrawBalanceActivity.putExtra("email", email);
+                    startActivity(intent_gotoWithdrawBalanceActivity);
+                }
+            });
+        }
+        //Transfers to userDetails Activity (on tapping the user photo icon)
+        {
+            imageView_photo =  findViewById(R.id.photo);
+            imageView_photo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent_gotoUserDetails = new Intent(driverdash.this, UserDetails.class);
+                    intent_gotoUserDetails.putExtra("email", email);
+                    startActivity(intent_gotoUserDetails);
+                }
+            });
+        }
+
+
+        //Performs Logout operation
+        {
+            imageView_logout = (ImageView) findViewById(R.id.logout);
+            imageView_logout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showLogoutConfirmationDialog();
+                }
+            });
+        }
+
+        //Fetch and update data when swiped from top
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onClick(View view) {
+            public void onRefresh() {
                 String userEmail = intent.getStringExtra("email");
-                fetchData(userEmail);
-                Toast.makeText(driverdash.this, "Data upated sucessfully", Toast.LENGTH_SHORT).show();
+                fetchLatestData(userEmail);
+                Toast.makeText(driverdash.this, "Data updated sucessfully", Toast.LENGTH_SHORT).show();
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
+        //Performs reload and fetch data from server
+        {
+            imageView_reload = (ImageView) findViewById(R.id.reload);
+            imageView_reload.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String userEmail = intent.getStringExtra("email");
+                    fetchLatestData(userEmail);
+                    Toast.makeText(driverdash.this, "Data upated sucessfully", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+
+        //Fetch data while loading the activity
 
         if (intent != null) {
             int userId = intent.getIntExtra("userid", -1); // -1 is the default value if the key is not found
             String userEmail = intent.getStringExtra("email");
-//            Toast.makeText(this, "id : "+userId, Toast.LENGTH_SHORT).show();
-//            Toast.makeText(this, "email : "+userEmail, Toast.LENGTH_SHORT).show();
-            fetchData(userEmail);
+            //            Toast.makeText(this, "id : "+userId, Toast.LENGTH_SHORT).show();
+            //            Toast.makeText(this, "email : "+userEmail, Toast.LENGTH_SHORT).show();
+            fetchLatestData(userEmail);
         }
-
+    }
+    private void editkmrr(String email) {
         //alert Dialog box
         final View dialogView = LayoutInflater.from(this).inflate(R.layout.payment_dialog, null);
-
-        final AlertDialog alertDialog = new AlertDialog.Builder(this)
+        alertDialog = new AlertDialog.Builder(this)
                 .setTitle("Enter Your New Rate")
                 .setView(dialogView)
                 .setPositiveButton("Update", new DialogInterface.OnClickListener() {
@@ -108,10 +154,8 @@ String rate;
                         EditText rate = dialogView.findViewById(R.id.editTextrate);
                         //cardNumberEditText.setText("hello");
                         String newRate = rate.getText().toString();
-                        String userEmail = intent.getStringExtra("email");
-                        updateRateWithVolley(newRate,userEmail);
-
-                      }
+                        updateRateWithVolley(newRate,email);
+                    }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -120,20 +164,151 @@ String rate;
                     }
                 })
                 .create();
-        cardViewCardInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              alertDialog.show();
 
-            }
-        });
+    }
+    private void updateRateWithVolley(String newRate,String email) {
 
+        String url = "https://trippay.in/updatekm.php"; // Replace with your actual endpoint URL
+        Map<String, String> params = new HashMap<>();
+        params.put("email", email);
+        params.put("rate", newRate);
+
+        // Create a new JsonObjectRequest
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Handle the response from the server
+                        km.setText("Price\n" + newRate + "/km");
+                        Toast.makeText(driverdash.this, "Rate updated successfully", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle the error
+                        km.setText("Price\n" + newRate + "/km");
+                        Toast.makeText(driverdash.this, "Rate updated successfully", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        // Add the request to the Volley request queue
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+    }
+    private void updateButtonsActivity(String email) {
+        //Share the App Activity
+        {
+            share = findViewById(R.id.shareLayout);
+            share.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    //Here the URL to the app needs to be added
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, "URL");
+                    sendIntent.setType("text/plain");
+
+                    Intent shareIntent = Intent.createChooser(sendIntent, null);
+                    startActivity(shareIntent);
+                }
+            });
+        }
+
+        //Transfers to the Rewards Activity (on clicking the chat rewards icon)
+        {
+            editRate = findViewById(R.id.editkmrr);
+            editRate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDialog.show();
+                }
+            });
+        }
+
+        //Transfers to the RideHistory Activity (on clicking the ridehistory icon)
+        {
+            rideHistory = findViewById(R.id.rideHistory);
+            rideHistory.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent_goToRideHistory = new Intent(driverdash.this, RideHistory.class);
+                    intent_goToRideHistory.putExtra("email", email);
+                    startActivity(intent_goToRideHistory);
+                }
+            });
+        }
+
+        //Transfers to the ChatSupport Activity (on clicking the chat Support icon)
+        {
+            chatSupport = findViewById(R.id.chatSupportLayout);
+            chatSupport.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent_gotoChatSupport = new Intent(driverdash.this, ChatSupport.class);
+                    intent_gotoChatSupport.putExtra("email", email);
+                    startActivity(intent_gotoChatSupport);
+                }
+            });
+        }
+        //Transfers to the Help Activity (on clicking the help icon)
+        {
+            help = findViewById(R.id.helpLayout);
+            help.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent_gotoHelp = new Intent(driverdash.this, Help.class);
+                    intent_gotoHelp.putExtra("email", email);
+                    startActivity(intent_gotoHelp);
+                }
+            });
+        }
+        //Transfers to the ReferandEarn Activity (on clicking the refer and earn icon)
+        {
+            refer = findViewById(R.id.referLayout);
+            refer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent_gotoReferAndEarn = new Intent(driverdash.this, ReferandEarn.class);
+                    intent_gotoReferAndEarn.putExtra("email", email);
+                    startActivity(intent_gotoReferAndEarn);
+                }
+            });
+        }
+
+        //Transfers to the Settings Activity (on clicking the settings icon)
+        {
+            settings = findViewById(R.id.settingLayout);
+            settings.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent_gotoSettings = new Intent(driverdash.this, Settings.class);
+                    intent_gotoSettings.putExtra("email", email);
+                    startActivity(intent_gotoSettings);
+                }
+            });
+        }
+        //Transfers to the WithdrawalHistory Activity (on clicking the withdrawal history icon)
+        {
+            withdrawal_history = findViewById(R.id.WithdrawalLayout);
+            withdrawal_history.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent_gotoWithdrawalHistory = new Intent(driverdash.this, WithdrawalHistory.class);
+                    intent_gotoWithdrawalHistory.putExtra("email", email);
+                    startActivity(intent_gotoWithdrawalHistory);
+                }
+            });
+        }
     }
 
     private void fetchLatestData(String email) {
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-String ENDPOINT_URL="https://trippay.in/latestData.php?email="+email;
-     //   Toast.makeText(this, ""+ENDPOINT_URL, Toast.LENGTH_SHORT).show();
+        String ENDPOINT_URL="https://trippay.in/latestData.php?email="+email;
+
+        //   Toast.makeText(this, ""+ENDPOINT_URL, Toast.LENGTH_SHORT).show();
+
         // Create a JsonObjectRequest to fetch JSON response
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -145,51 +320,43 @@ String ENDPOINT_URL="https://trippay.in/latestData.php?email="+email;
                         // Handle the JSON response
                        // Toast.makeText(driverdash.this, "response : ", Toast.LENGTH_SHORT).show();
                         try {
-                            String cardId = response.getString("card_id");
                             String hname = response.getString("name");
-                            String cardBalance = response.getString("card_balance");
+                            String carrierS = response.getString("carrier");
+                            //here card balance is being used as daily earning add daily earning to json response and update the string
+                            String todaysEarning = response.getString("card_balance");
                             String signall = response.getString("signal");
                             String batteryy = response.getString("bat");
-                            String car = response.getString("carrier");
-                            String ssidd = response.getString("ssid");
-                            String pass = response.getString("pass");
                             String kmrate = response.getString("kmrate");
+
+                            String distanceS = "20";
+                            //total distance not defined in server response, define it and update the below commented line and remove the old definition of distanceS
+                            // String distanceS = response.getString("");
                             rate = kmrate;
                             int lp = response.getInt("logtime");
-                            name.setText("Driver Name : " + hname);
-                            ssid.setText("SSID : " + ssidd);
-                            passwrd.setText("Password : " + pass);
-                            // Get current time in epoch format
+                            name.setText(hname);
                             long currentTime = System.currentTimeMillis() / 1000;
+
+
 
                             // Calculate time difference
                             long differenceInSeconds = currentTime - lp;
+                            lastupdated.setText(timemanager(differenceInSeconds));
+                            totaldistance.setText(distanceS + "km");
+                            carrier.setText("Carrier : "+carrierS);
+                            signal.setText("Signal\n" + signall + "%");
+                            battery.setText("Battery\n" + batteryy + "%");
+                            km.setText("Price\n" + kmrate + "/km");
+                            balance.setText("₹"+todaysEarning);
 
-                            if (differenceInSeconds < 60) {
-                                // Few seconds ago
-                                lastupdated.setText("Last Updated : " + differenceInSeconds + "Few seconds ago");
-                            } else if (differenceInSeconds < 3600) {
-                                // X minutes ago
-                                long minutes = TimeUnit.SECONDS.toMinutes(differenceInSeconds);
-                                lastupdated.setText("Last Updated : " + minutes + " minutes ago");
-                            } else if (differenceInSeconds < 86400) {
-                                // X hours ago
-                                long hours = TimeUnit.SECONDS.toHours(differenceInSeconds);
-                                lastupdated.setText("Last Updated : " + hours + " minutes ago");
-                            } else {
-                                // X days ago
-                                long days = TimeUnit.SECONDS.toDays(differenceInSeconds);
-                                lastupdated.setText("Last Updated : " + days + " minutes ago");
+                            //dynamically updates the signal icon and battery icon based on signal strength and battery available
+                            try {
+                                updateSignalImage(Integer.valueOf(signall));
+                                updateBatteryImage(Integer.valueOf(batteryy));
+                            } catch (Exception e) {
+
                             }
-
-                            signal.setText("Signal Strength : " + signall + "%");
-                            battery.setText("Battery : " + batteryy + "%");
-                            carrier.setText("Carrier : " + car);
-                            // Set card information in the views
-                            cardid.setText("Device ID : " + cardId);
-                            km.setText("Price/Km : " + kmrate + "$");
-                            balance.setText("Earnings : " + cardBalance + "$");
                         } catch (JSONException e) {
+
                             e.printStackTrace();
                             Log.e(TAG, "Error parsing JSON response: " + e.getMessage());
                         }
@@ -210,291 +377,42 @@ String ENDPOINT_URL="https://trippay.in/latestData.php?email="+email;
     }
 
 
-
-    private void fetchData(String email) {
-        String url = "https://trippay.in/getdriverinfo.php?email="+email;
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            // Extract card information
-                            //Toast.makeText(driverdash.this, "res : "+response , Toast.LENGTH_SHORT).show();
-                            String cardId = response.getString("card_id");
-                            String hname = response.getString("name");
-                            String cardBalance = response.getString("card_balance");
-                            String signall = response.getString("signal");
-                            String batteryy = response.getString("bat");
-                            String car = response.getString("carrier");
-                            String ssidd = response.getString("ssid");
-                            String pass = response.getString("pass");
-                            String kmrate = response.getString("kmrate");
-                            rate = kmrate;
-                            int lp = response.getInt("logtime");
-                            name.setText("Driver Name : " + hname);
-                            ssid.setText("SSID : " + ssidd);
-                            passwrd.setText("Password : " + pass);
-                            // Get current time in epoch format
-                            long currentTime = System.currentTimeMillis() / 1000;
-
-                            // Calculate time difference
-                            long differenceInSeconds = currentTime - lp;
-
-                            if (differenceInSeconds < 60) {
-                                // Few seconds ago
-                                lastupdated.setText("Last Updated : " + differenceInSeconds + "Few seconds ago");
-                            } else if (differenceInSeconds < 3600) {
-                                // X minutes ago
-                                long minutes = TimeUnit.SECONDS.toMinutes(differenceInSeconds);
-                                lastupdated.setText("Last Updated : " + minutes + " minutes ago");
-                            } else if (differenceInSeconds < 86400) {
-                                // X hours ago
-                                long hours = TimeUnit.SECONDS.toHours(differenceInSeconds);
-                                lastupdated.setText("Last Updated : " + hours + " minutes ago");
-                            } else {
-                                // X days ago
-                                long days = TimeUnit.SECONDS.toDays(differenceInSeconds);
-                                lastupdated.setText("Last Updated : " + days + " minutes ago");
-                            }
-
-                            signal.setText("Signal Strength : " + signall + "%");
-                            battery.setText("Battery : " + batteryy + "%");
-                            carrier.setText("Carrier : " + car);
-                            // Set card information in the views
-                            cardid.setText("Device ID : " + cardId);
-                            km.setText("Price/Km : " + kmrate + "$");
-                            balance.setText("Earnings : " + cardBalance + "$");
-
-                            // Extract riding data array
-                            // Extract riding data array
-                            JSONObject jsonResponse = new JSONObject(String.valueOf(response));
-                            if (jsonResponse.has("riding_data")) {
-                            JSONArray ridingDataArray = response.getJSONArray("riding_data");
-                                //Toast.makeText(driverdash.this, "rdidngdata rec", Toast.LENGTH_SHORT).show();
-                            // Create a list to hold riding data objects
-                            List<RidingData> ridingDataList = new ArrayList<>();
-
-                            // Iterate through the riding data array
-                            for (int i = 0; i < ridingDataArray.length(); i++) {
-                                JSONObject ridingDataObject = ridingDataArray.getJSONObject(i);
-
-                                // Extract data from the JSON object
-                                String startPoint = ridingDataObject.getString("startpoint");
-                                String endPoint = ridingDataObject.getString("endpoint");
-                                String totalFare = ridingDataObject.getString("fair");
-                                String totalDistance = ridingDataObject.getString("distance");
-                                String logtime = ridingDataObject.getString("logtime");
-                                String drivername = ridingDataObject.getString("full_name");
-                                String startep = ridingDataObject.getString("startep");
-                                String endep = ridingDataObject.getString("endep");
-
-                                //    Toast.makeText(driverdash.this, "start ep"+startep.toString(), Toast.LENGTH_SHORT).show();
-                                // Create a RidingData object and add it to the list
-                                driverdash.RidingData ridingData = new driverdash.RidingData(startPoint, endPoint, totalFare, totalDistance, logtime, drivername, startep, endep);
-                                ridingDataList.add(ridingData);
-                            }
-
-                            // Set up the RecyclerView with the adapter
-                            driverdash.RidingDataAdapter adapter = new driverdash.RidingDataAdapter(ridingDataList);
-                            recyclerViewRidingData.setLayoutManager(new LinearLayoutManager(driverdash.this));
-                            recyclerViewRidingData.setAdapter(adapter);
-                        }
-                        else{
-                                //Toast.makeText(driverdash.this, "No Ride Completed Yet", Toast.LENGTH_SHORT).show();
-                        }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // Handle error
-                        //Toast.makeText(driverdash.this, "Calling other endpoint", Toast.LENGTH_SHORT).show();
-                        fetchLatestData(email);
-                    }
-                });
-
-        // Add the request to the RequestQueue
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(jsonObjectRequest);
-    }
-
-    // Define a data model for riding data
-    private static class RidingData {
-        private final String startPoint;
-        private final String endPoint;
-        private final String totalFare;
-        private final String totalDistance;
-        private final String logtime;
-        private final String drivername;
-        private final String startep;
-        private final String endep;
-
-        public RidingData(String startPoint, String endPoint, String totalFare, String totalDistance, String logtime, String drivername,String sep,String eep) {
-            this.startPoint = startPoint;
-            this.endPoint = endPoint;
-            this.totalFare = totalFare;
-            this.totalDistance = totalDistance;
-            this.logtime = logtime;
-            this.drivername = drivername;
-            this.startep=sep;
-            this.endep=eep;
-        }
-    }
-
-    // Adapter for the RecyclerView
-    private class RidingDataAdapter extends RecyclerView.Adapter<driverdash.RidingDataAdapter.ViewHolder> {
-
-        private final List<driverdash.RidingData> ridingDataList;
-
-        public RidingDataAdapter(List<driverdash.RidingData> ridingDataList) {
-            this.ridingDataList = ridingDataList;
-        }
-
-        @NonNull
-        @Override
-        public driverdash.RidingDataAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_riding_data, parent, false);
-            return new driverdash.RidingDataAdapter.ViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull driverdash.RidingDataAdapter.ViewHolder holder, int position) {
-            driverdash.RidingData ridingData = ridingDataList.get(position);
-            holder.textViewDriverName.setText("Rider Name: " + ridingData.drivername);
-            holder.textViewStartPoint.setText("Start Point: " + ridingData.startPoint);
-            holder.textViewEndPoint.setText("End Point: " + ridingData.endPoint);
-            holder.textViewTotalFare.setText("Total Fare: " + ridingData.totalFare+"$");
-            holder.textViewTotalDistance.setText("Total Distance: " + ridingData.totalDistance+"Km");
-            holder.textViewTotalDistance.setText("Total Distance: " + ridingData.totalDistance+"Km");
-            holder.textViewstep.setText("Ride Start at: " + ridingData.startep);
-            holder.textVieweep.setText("Ride Start at: " + ridingData.endep);
-
-
-            SimpleDateFormat outputFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.getDefault());
-
-            try {
-                long logtimeEpoch = Long.parseLong(ridingData.logtime);
-                Date date = new Date(logtimeEpoch * 1000); // Convert epoch time to milliseconds
-                String formattedLogTime = outputFormat.format(date);
-                holder.textViewLogTime.setText("Log Time: " + formattedLogTime);
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-                holder.textViewLogTime.setText("Log Time: Error formatting date");
-            }
-
-            try {
-                long logtimeEpoch = Long.parseLong(ridingData.startep);
-                Date date = new Date(logtimeEpoch * 1000); // Convert epoch time to milliseconds
-                String formattedLogTime = outputFormat.format(date);
-                holder.textViewstep.setText("Ride start at: " + formattedLogTime);
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-                holder.textViewstep.setText("Log Time: Error formatting date");
-            }
-            try {
-                long logtimeEpoch = Long.parseLong(ridingData.endep);
-                Date date = new Date(logtimeEpoch * 1000); // Convert epoch time to milliseconds
-                String formattedLogTime = outputFormat.format(date);
-                holder.textVieweep.setText("Ride end at: " + formattedLogTime);
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-                holder.textVieweep.setText("Log Time: Error formatting date");
-            }
-
-
-
-
-            // Set a click listener for the RecyclerView item
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Handle item click, e.g., navigate to another activity
-                    navigateToDetailsActivity(ridingData);
-                }
-            });
-        }
-
-        @Override
-        public int getItemCount() {
-            return ridingDataList.size();
-        }
-
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            TextView textViewStartPoint, textViewEndPoint, textViewTotalFare, textViewTotalDistance,textViewLogTime,textViewDriverName,textViewstep,textVieweep;
-
-            public ViewHolder(@NonNull View itemView) {
-                super(itemView);
-                textViewStartPoint = itemView.findViewById(R.id.textViewStartPoint);
-                textViewEndPoint = itemView.findViewById(R.id.textViewEndPoint);
-                textViewTotalFare = itemView.findViewById(R.id.textViewTotalFare);
-                textViewTotalDistance = itemView.findViewById(R.id.textViewTotalDistance);
-                textViewDriverName=itemView.findViewById(R.id.textViewDriverName);
-                textViewLogTime=itemView.findViewById(R.id.textViewLogTime);
-                textViewstep=itemView.findViewById(R.id.sep);
-                textVieweep=itemView.findViewById(R.id.eep);
-
-            }
-        }
-    }
-
-    // Method to navigate to the details activity
-    private void navigateToDetailsActivity(driverdash.RidingData ridingData) {
-        Intent intent = new Intent(driverdash.this, DetailsActivity.class);
-        intent.putExtra("startPoint", ridingData.startPoint);
-        intent.putExtra("endPoint", ridingData.endPoint);
-        intent.putExtra("totalFare", ridingData.totalFare);
-        intent.putExtra("totalDistance", ridingData.totalDistance);
-        startActivity(intent);
-    }
-
-    private String formatEpochTime(long epochTime) {
-        Date date = new Date(epochTime * 1000);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return sdf.format(date);
-    }
-
-    private void updateRateWithVolley(String newRate,String email) {
-        String url = "https://trippay.in/updatekm.php"; // Replace with your actual endpoint URL
-//        Toast.makeText(this, "rate "+newRate, Toast.LENGTH_SHORT).show();
-//        Toast.makeText(this, "email "+email, Toast.LENGTH_SHORT).show();
-        // Prepare the request parameters
-        Map<String, String> params = new HashMap<>();
-        params.put("email", email);
-        params.put("rate", newRate);
-
-        // Create a new JsonObjectRequest
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        // Handle the response from the server
-                        km.setText("Price/Km : " + newRate+"$");
-                        Toast.makeText(driverdash.this, "Rate updated successfully", Toast.LENGTH_SHORT).show();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // Handle the error
-                        km.setText("Price/Km : " + newRate+"$");
-                        Toast.makeText(driverdash.this, "Rate updated successfully", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-        // Add the request to the Volley request queue
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(request);
-    }
     @Override
     public void onBackPressed() {
 
         showLogoutConfirmationDialog();
+        super.onBackPressed();
     }
 
+    //Updates the signal Image
+    private void updateSignalImage(int signal) {
+        if(signal < 15 )
+            imageView_signal.setImageResource(R.drawable.baseline_signal_cellular_0_bar_24);
+        else if (signal <40)
+            imageView_signal.setImageResource(R.drawable.baseline_signal_cellular_alt_1_bar_24);
+        else if (signal <70)
+            imageView_signal.setImageResource(R.drawable.baseline_signal_cellular_alt_2_bar_24);
+        else
+            imageView_signal.setImageResource(R.drawable.baseline_signal_cellular_alt_24);
+    }
+
+    //updates the battery image
+    private void updateBatteryImage(int battery) {
+        if ( battery < 10)
+            imageView_battery.setImageResource(R.drawable.baseline_battery_0_bar_24);
+        else if(battery < 37)
+            imageView_battery.setImageResource(R.drawable.baseline_battery_2_bar_24);
+        else if(battery < 64)
+            imageView_battery.setImageResource(R.drawable.baseline_battery_4_bar_24);
+        else if(battery < 90)
+            imageView_battery.setImageResource(R.drawable.baseline_battery_6_bar_24);
+        else
+            imageView_battery.setImageResource(R.drawable.baseline_battery_full_24);
+
+
+    }
+
+    //provides dialogue when logout icon is pressed
     private void showLogoutConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Are you sure you want to logout?")
@@ -515,9 +433,32 @@ String ENDPOINT_URL="https://trippay.in/latestData.php?email="+email;
         dialog.show();
     }
 
+    //completes the logout operation
     private void performLogout() {
         Intent intent = new Intent(this, login.class);
         startActivity(intent);
         finish();
+    }
+
+    //Converts time from second to suitable time scale
+    private String timemanager(long differenceInSeconds) {
+        String message="";
+        if (differenceInSeconds < 60) {
+            // Few seconds ago
+            message = "Last Updated : " + differenceInSeconds + "Few seconds ago";
+        } else if (differenceInSeconds < 3600) {
+            // X minutes ago
+            long minutes = TimeUnit.SECONDS.toMinutes(differenceInSeconds);
+            message = "Last Updated : " + minutes + " minutes ago";
+        } else if (differenceInSeconds < 86400) {
+            // X hours ago
+            long hours = TimeUnit.SECONDS.toHours(differenceInSeconds);
+            message = "Last Updated : " + hours + " hours ago";
+        } else {
+            // X days ago
+            long days = TimeUnit.SECONDS.toDays(differenceInSeconds);
+            message = "Last Updated : " + days + " days ago";
+        }
+        return message;
     }
 }
