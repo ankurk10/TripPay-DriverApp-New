@@ -27,6 +27,36 @@
         android:theme="@style/Theme.Riding"
         tools:targetApi="31">
         <activity
+            android:name=".ReferandEarn"
+            android:exported="false" />
+        <activity
+            android:name=".Help"
+            android:exported="false" />
+        <activity
+            android:name=".Settings"
+            android:exported="false" />
+        <activity
+            android:name=".Rewards"
+            android:exported="false" />
+        <activity
+            android:name=".ChatSupport"
+            android:exported="false" />
+        <activity
+            android:name=".WithdrawalHistory"
+            android:exported="false" />
+        <activity
+            android:name=".UserDetails"
+            android:exported="false" />
+        <activity
+            android:name=".WithdrawBalanceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RideHistory"
+            android:exported="false" />
+        <activity
+            android:name=".TransactionActivity"
+            android:exported="false" />
+        <activity
             android:name=".PaymentActivity"
             android:exported="false">
             <meta-data

@@ -1,19 +1,16 @@
 package com.example.riding;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
         cardViewCardInfo = findViewById(R.id.cardViewCardInfo);
         textViewCardId = findViewById(R.id.textViewCardId);
         textViewCardBalance = findViewById(R.id.textViewCardBalance);
-        recyclerViewRidingData = findViewById(R.id.recyclerViewRidingData);
-        name=findViewById(R.id.username);
+        recyclerViewRidingData = findViewById(R.id.RidingDataAdapter);
+        name=findViewById(R.id.name);
 
         Intent intent = getIntent();
         if (intent != null) {

@@ -68,8 +68,8 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
                 LatLngBounds bounds = builder.build();
 
                 // Adjust camera position to include both markers
-                int padding = 100; // Padding in pixels
-               // googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, padding));
+                int padding = 200; // Padding in pixels
+               googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, padding));
             }
         }
     }
