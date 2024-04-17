@@ -15,7 +15,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#F8EEEC"
+            android:background="@color/background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -124,7 +124,7 @@
                                 android:layout_marginBottom="8dp"
                                 android:text="Today's Earnings"
                                 android:textAlignment="center"
-                                android:textColor="#C77710"
+                                android:textColor="@color/orangeTint"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
 
@@ -135,7 +135,7 @@
                                 android:layout_marginBottom="8dp"
                                 android:text="₹0"
                                 android:textAlignment="center"
-                                android:textColor="#C77710"
+                                android:textColor="@color/orangeTint"
                                 android:textSize="36sp"
                                 android:textStyle="bold" />
 
@@ -144,8 +144,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="8dp"
-                                android:backgroundTint="#C77710"
-                                android:text="withdraw" />
+                                android:backgroundTint="@color/orangeTint"
+                                android:text="withdraw"
+                                android:textColor="@color/white" />
 
                         </LinearLayout>
                     </LinearLayout>
@@ -360,7 +361,7 @@
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
                                     app:srcCompat="@drawable/baseline_currency_rupee_24"
-                                    app:tint="#2E3D6D" />
+                                    app:tint="@color/textTint" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                             <TextView
@@ -370,7 +371,7 @@
                                 android:layout_marginTop="8dp"
                                 android:text="Edit Rate"
                                 android:textAlignment="center"
-                                android:textColor="#2E3D6D"
+                                android:textColor="@color/textTint"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -401,7 +402,7 @@
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
                                     app:srcCompat="@drawable/transhistory"
-                                    app:tint="#2E3D6D" />
+                                    app:tint="@color/textTint" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                             <TextView
@@ -411,7 +412,7 @@
                                 android:layout_marginTop="8dp"
                                 android:text="Ride history"
                                 android:textAlignment="center"
-                                android:textColor="#2E3D6D"
+                                android:textColor="@color/textTint"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -442,7 +443,7 @@
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
                                     app:srcCompat="@drawable/suggestion"
-                                    app:tint="#2E3D6D" />
+                                    app:tint="@color/textTint" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                             <TextView
@@ -452,7 +453,7 @@
                                 android:layout_marginTop="8dp"
                                 android:text="Chat Support"
                                 android:textAlignment="center"
-                                android:textColor="#2E3D6D"
+                                android:textColor="@color/textTint"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -483,7 +484,7 @@
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
                                     app:srcCompat="@drawable/rechargehistory"
-                                    app:tint="#2E3D6D" />
+                                    app:tint="@color/textTint" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                             <TextView
@@ -493,7 +494,7 @@
                                 android:layout_marginTop="8dp"
                                 android:text="Withdrawal History"
                                 android:textAlignment="center"
-                                android:textColor="#2E3D6D"
+                                android:textColor="@color/textTint"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -531,7 +532,7 @@
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
                                     app:srcCompat="@drawable/refer"
-                                    app:tint="#2E3D6D" />
+                                    app:tint="@color/textTint" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                             <TextView
@@ -541,7 +542,7 @@
                                 android:layout_marginTop="8dp"
                                 android:text="Refer and Earn"
                                 android:textAlignment="center"
-                                android:textColor="#2E3D6D"
+                                android:textColor="@color/textTint"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -572,7 +573,7 @@
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
                                     app:srcCompat="@drawable/contact_support"
-                                    app:tint="#2E3D6D" />
+                                    app:tint="@color/textTint" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                             <TextView
@@ -582,7 +583,7 @@
                                 android:layout_marginTop="8dp"
                                 android:text="Help"
                                 android:textAlignment="center"
-                                android:textColor="#2E3D6D"
+                                android:textColor="@color/textTint"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -613,7 +614,7 @@
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
                                     app:srcCompat="@drawable/share"
-                                    app:tint="#2E3D6D" />
+                                    app:tint="@color/textTint" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                             <TextView
@@ -623,7 +624,7 @@
                                 android:layout_marginTop="8dp"
                                 android:text="Share"
                                 android:textAlignment="center"
-                                android:textColor="#2E3D6D"
+                                android:textColor="@color/textTint"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -655,7 +656,7 @@
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
                                     app:srcCompat="@drawable/setting"
-                                    app:tint="#2E3D6D" />
+                                    app:tint="@color/textTint" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                             <TextView
@@ -665,7 +666,7 @@
                                 android:layout_marginTop="8dp"
                                 android:text="Settings"
                                 android:textAlignment="center"
-                                android:textColor="#2E3D6D"
+                                android:textColor="@color/textTint"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
                         </LinearLayout>

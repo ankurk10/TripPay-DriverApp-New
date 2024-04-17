@@ -4,15 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F2F2F2"
-    android:orientation="vertical"
+    android:background="@color/background"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context=".RideHistory">
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/swipeRefreshLayout"
-        android:background="#F2F2F2">
+        android:background="@color/background">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -39,11 +41,12 @@
                             android:id="@+id/toolbar"
                             android:layout_width="match_parent"
                             android:layout_height="?attr/actionBarSize"
+                            android:background="@color/layer_One_Background"
                             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                             app:contentInsetStartWithNavigation="0dp"
                             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                             app:title="Ride History"
-                            app:titleTextColor="#1A237E" />
+                            app:titleTextColor="@color/deepBlue" />
                     </com.google.android.material.appbar.AppBarLayout>
 
                     <LinearLayout
@@ -98,14 +101,14 @@
 
 
                                 <TextView
+                                    android:id="@+id/distanceTravelled"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="sans-serif-medium"
                                     android:text="Loading..."
-                                    android:id="@+id/distanceTravelled"
-                                    android:textStyle="bold"
                                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                                    android:textColor="#FFFFFF" />
+                                    android:textColor="#FFFFFF"
+                                    android:textStyle="bold" />
 
                                 <View
                                     android:layout_width="0dp"
@@ -147,7 +150,7 @@
                                             android:layout_height="match_parent"
                                             android:layout_centerInParent="true"
                                             android:src="@drawable/recharge"
-                                            app:tint="#2A932E" />
+                                            app:tint="@color/dimGreen" />
 
                                     </RelativeLayout>
 
@@ -161,7 +164,7 @@
                                         android:fontFamily="sans-serif-medium"
                                         android:text="Withdraw"
                                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                                        android:textColor="#29872D"
+                                        android:textColor="@color/dimGreen"
                                         android:textStyle="bold" />
                                 </LinearLayout>
 
@@ -196,7 +199,7 @@
                                             android:layout_height="match_parent"
                                             android:layout_centerInParent="true"
                                             android:src="@drawable/rechargehistory"
-                                            app:tint="#1A237E" />
+                                            app:tint="@color/deepBlue" />
 
                                     </RelativeLayout>
 
@@ -212,7 +215,7 @@
                                         android:fontFamily="sans-serif-medium"
                                         android:text="History"
                                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                                        android:textColor="#1A237E"
+                                        android:textColor="@color/deepBlue"
                                         android:textStyle="bold" />
                                 </LinearLayout>
 
@@ -234,7 +237,7 @@
                             android:id="@+id/RidingDataAdapter"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:padding="0dp"/>
+                            android:padding="0dp" />
 
 
                     </LinearLayout>
