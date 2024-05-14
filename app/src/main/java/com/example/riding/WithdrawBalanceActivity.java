@@ -35,6 +35,7 @@ public class WithdrawBalanceActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(WithdrawBalanceActivity.this, "Withdrawal Request Sent", Toast.LENGTH_LONG).show();
+                //create the below functions to complete the activity
 //                        withdrawBalance();
 //                        updatePage();
             }

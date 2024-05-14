@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8EEEC"
+    android:background="@color/background"
     tools:context=".login">
 
     <ScrollView
@@ -22,6 +22,7 @@
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/background"
                 android:scaleType="fitXY"
                 app:srcCompat="@drawable/top_background1" />
 
@@ -31,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="32dp"
                 android:layout_marginRight="32dp"
-                android:text="Welcome to TripPay Rider"
+                android:text="Welcome to TripPay Driver"
                 android:textColor="#EA6D35"
                 android:textSize="40sp"
                 android:textStyle="bold" />

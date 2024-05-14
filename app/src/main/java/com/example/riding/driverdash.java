@@ -154,6 +154,12 @@ public class driverdash extends AppCompatActivity {
                         EditText rate = dialogView.findViewById(R.id.editTextrate);
                         //cardNumberEditText.setText("hello");
                         String newRate = rate.getText().toString();
+                        try {
+                            Integer.parseInt(newRate);
+                        } catch(Exception e) {
+                            Toast.makeText(driverdash.this,"Incorrect input! Try again", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         updateRateWithVolley(newRate,email);
                     }
                 })
@@ -257,9 +263,15 @@ public class driverdash extends AppCompatActivity {
             help.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent_gotoHelp = new Intent(driverdash.this, Help.class);
-                    intent_gotoHelp.putExtra("email", email);
-                    startActivity(intent_gotoHelp);
+                    //were meant to transfer the page to new activity
+//                    Intent intent_gotoHelp = new Intent(driverdash.this, Help.class);
+//                    intent_gotoHelp.putExtra("email", email);
+//                    startActivity(intent_gotoHelp);
+
+                    Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                    emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"help@trippay.in"});
+                    emailIntent.setType("message/rfc822");
+                    startActivity(Intent.createChooser(emailIntent, "Email"));
                 }
             });
         }

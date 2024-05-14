@@ -11,9 +11,9 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="5dp"
+        app:cardBackgroundColor="@color/background"
         app:cardCornerRadius="15dp"
-        app:cardBackgroundColor="@color/white"
+        app:cardElevation="5dp"
         app:cardMaxElevation="5dp"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true">
@@ -21,23 +21,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/layer_One_Background"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
+
                 <com.airbnb.lottie.LottieAnimationView
 
                     android:id="@+id/animationView"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
+                    android:layout_centerInParent="true"
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:scaleType="fitXY"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
-                    android:layout_centerInParent="true"
                     app:lottie_rawRes="@raw/root" />
 
                 <LinearLayout
@@ -49,57 +52,58 @@
                     <TextView
                         android:id="@+id/textViewDriverName"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="casual" />
+
+                    <TextView
+                        android:id="@+id/textViewStartPoint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:fontFamily="casual"
-                        android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/textViewStartPoint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="casual"
-        android:text="Start Point: " />
+                        android:text="Start Point: " />
 
-    <TextView
-        android:id="@+id/textViewEndPoint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="casual"
-        android:text="End Point: " />
+                    <TextView
+                        android:id="@+id/textViewEndPoint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="casual"
+                        android:text="End Point: " />
 
-    <TextView
-        android:id="@+id/textViewTotalFare"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="casual"
-        android:text="Total Fare: " />
+                    <TextView
+                        android:id="@+id/textViewTotalFare"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="casual"
+                        android:text="Total Fare: " />
 
-    <TextView
-        android:id="@+id/textViewTotalDistance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="casual"
-        android:text="Total Distance: " />
+                    <TextView
+                        android:id="@+id/textViewTotalDistance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="casual"
+                        android:text="Total Distance: " />
 
                     <TextView
                         android:id="@+id/sep"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="casual"/>
+                        android:fontFamily="casual" />
 
                     <TextView
                         android:id="@+id/eep"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="casual"/>
+                        android:fontFamily="casual" />
 
                     <TextView
                         android:id="@+id/textViewLogTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="casual"/>
+                        android:fontFamily="casual" />
 
 
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
